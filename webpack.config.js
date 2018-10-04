@@ -133,6 +133,7 @@ const RESOURCES_CSS_CONFIG = {
     "error": absolutePublicPath("resources/stylesheets/error.less"),
     "normalize": absolutePublicPath("resources/stylesheets/normalize.less"),
     "userbar": absolutePublicPath("resources/stylesheets/userbar.less"),
+    "glitch": absolutePublicPath("resources/stylesheets/glitch.less"),
     "remix": absolutePublicPath("resources/remix/style.less")
   },
 

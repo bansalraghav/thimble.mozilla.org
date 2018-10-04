@@ -366,7 +366,10 @@ function init(bramble, csrfToken, appUrl) {
   });
 
   // Preview Mode Toggle
-  $("#preview-pane-nav-desktop").click(function() {
+  $("#preview-pane-nav-desktop").on("dragstart", function() {
+    return false;
+  });
+  $("#preview-pane-nav-desktop").mousedown(function() {
     activatePreviewMode("desktop");
     analytics.event({
       category: analytics.eventCategories.EDITOR_UI,
@@ -374,7 +377,10 @@ function init(bramble, csrfToken, appUrl) {
       label: "Desktop"
     });
   });
-  $("#preview-pane-nav-phone").click(function() {
+  $("#preview-pane-nav-phone").on("dragstart", function() {
+    return false;
+  });
+  $("#preview-pane-nav-phone").mousedown(function() {
     activatePreviewMode("mobile");
     analytics.event({
       category: analytics.eventCategories.EDITOR_UI,
@@ -445,6 +451,11 @@ function init(bramble, csrfToken, appUrl) {
     _escKeyHandler = null;
   }
   function showPublishDialog() {
+    $("#updateDialog").hide();
+    $("#no-index-update")
+      .addClass("hide")
+      .removeClass("show");
+
     publishDialogUnderlay = new Underlay("#publish-dialog", hidePublishDialog);
     $("#publish-dialog").show();
 

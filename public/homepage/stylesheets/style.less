@@ -2,6 +2,7 @@ body {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 1em;
   font-weight: 400;
+  min-width: 981px;
 }
 
 @import "variables.less";
@@ -33,6 +34,10 @@ html {
 
 // userbar.less overrides for homepage
 .navbar-thimble {
+  &.navbar-fix {
+    margin-top: 0;
+  }
+
   #navbar-login {
     border-left: none;
     margin-right: 0 !important;

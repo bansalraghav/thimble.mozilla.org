@@ -7,10 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="csrf-token" content="{{csrf}}">
     <meta name="moment-lang" content="{{localeInfo.momentLang}}">
+    <meta name="glitch-url" content="{{glitch.importURL}}">
+    <meta name="export-label" content="{{ gettext("exportLabel") }}">
 
     <title>Mozilla Thimble</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arvo:400,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
     <link rel="stylesheet" href="/resources/stylesheets/normalize.css">
     <link rel="stylesheet" href="/resources/stylesheets/userbar.css">
@@ -30,6 +33,10 @@
   <body>
     <script src="https://pontoon.mozilla.org/pontoon.js"></script>
 
+    {% if glitchExportEnabled %}
+      {% include './glitch-notice.html' %}
+    {% endif %}
+
     {% include '../homepage/userbar.html' %}
 
     <div class="project-list-wrapper">
@@ -45,9 +52,8 @@
 
       <h2>{{ gettext("yourProjectsLink") }}</h2>
 
-      <div id="project-list" data-username="{{ username }}">
-
-      {% for project in projects %}
+      <div id="project-list" class="glitch project-list" data-username="{{ username }}">
+        {% for project in projects %}
         <div class="project bramble-user-project"
             id="{{ [ 'project', project.id ] | join('-') }}"
         {% for key, value in project %}
@@ -63,21 +69,73 @@
             <div class="project-description">{% if project.description %}{{ project.description | trim }}{% endif %}</div>
           </a>
 
-          <div class="project-ui">
-            {% if project.publish_url %}
-            <a class="published-link" target="_blank" href="{{ project.publish_url }}">{{ gettext("publishedLink") }}</a>
-            <a class="remix-link" href="/projects/{{ project.published_id }}/remix">{{ gettext("remix") }}</a>
+          <div class="project-ui glitch">
+            {% if glitchExportEnabled %}
+              {% if project.glitch_migrated %}
+                <div class="hooray">
+                  Hooray! Your project is now on Glitch
+                </div>
+              {% else %}
+                <button
+                  class="btn export-button"
+                  data-project-id="{{ project.id }}"
+                  data-published-id="{{ project.published_id }}"
+                  data-project-url="{{ project.publish_url }}"
+                  title="{{ gettext("prjListMigrateProjectBtnTitle") }}"
+                >
+                  <i class="export-icon"></i>
+                  {{ gettext("prjListMigrateProjectBtnTitle") }}
+                </button>
+              {% endif %}
+            {% else %}
+              {% if not project.publish_url %}
+                <a class="published-link" target="_blank" href="{{ project.publish_url }}">{{ gettext("publishedLink") }}</a>
+                <a class="remix-link" href="/projects/{{ project.published_id }}/remix">{{ gettext("remix") }}</a>
+              {% endif %}
             {% endif %}
+
             <div class="project-delete" title="{{ gettext("prjListDeleteProjectBtnTitle") }}">
               <div class="icon-garbage-can"></div>
               {{ gettext("prjListDeleteProjectBtn") }}
             </div>
             <div class="project-delete-cancel hide" title="{{ gettext("prjListCancelDeleteProjectBtnTitle") }}">{{ gettext("prjListCancelDeleteProjectBtn") }}</div>
           </div>
-
         </div>
-      {% endfor %}
+        {% endfor %}
 
+        <div class="glitch glitch-cta underlay hidden">
+          <div class="glitch-cta content">
+            <img class="cta-close" src="/img/clear.svg" tabindex="0">
+            <i class="glitch-logo"></i>
+            <div class="normal">
+              <h1>{{ gettext("beforeYouStart") | safe }}</h1>
+              <ul>
+                <li>{{ gettext("glitchPoint1") }}</li>
+                <li>{{ gettext("glitchPoint2") }}</li>
+                <li>{{ gettext("glitchPoint3") }}</li>
+                <li>{{ gettext("glitchPoint4") }}</li>
+              </ul>
+            </div>
+
+            <div class="error hidden">
+              <h1>{{ gettext("exportOops") }}</h1>
+              <p>{{ gettext("retryOrMail") | instantiate | safe }}</p>
+            </div>
+
+            <div>
+              <button class="btn export-button start hidden">
+                <i class="export-icon"></i><span class="label">{{ gettext("startExportingProject") }}</span>
+              </button>
+              <button class="btn export-button published hidden">
+                <i class="export-icon"></i><span class="label">{{ gettext("exportPublished") }}</span>
+              </button>
+              <button class="btn export-button unpublished hidden">
+                <i class="export-icon"></i><span class="label">{{ gettext("exportUnpublished") }}</span>
+              </button>
+            </div>
+            <p><a class="privacy-policy" href="https://glitch.com/legal">{{ gettext("readPP") }}</a></p>
+          </div>
+        </div>
       </div>
 
       <script src="/projects-list/scripts/main.js"></script>

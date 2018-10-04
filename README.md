@@ -24,7 +24,7 @@ Thimble requires a modern web browser, and we recommend using Mozilla Firefox or
 
 Thimble interacts with the Publish API (source managed in [publish.webmaker.org](https://github.com/mozilla/publish.webmaker.org)) to store users, projects, files and other content as well as publish user projects.
 
-For authentication and user management, Thimble uses Webmaker OAuth which consists of the Webmaker ID System (source managed in [id.webmaker.org](htps://github.com/mozilla/id.webmaker.org)) and the Webmaker Login API (source managed in [login.webmaker.org](https://github.com/mozilla/login.webmaker.org)).
+For authentication and user management, Thimble uses Webmaker OAuth which consists of the Webmaker ID System (source managed in [id.webmaker.org](https://github.com/mozilla/id.webmaker.org)) and the Webmaker Login API (source managed in [login.webmaker.org](https://github.com/mozilla/login.webmaker.org)).
 
 All three services are bundled together using Git subtrees to be run together using Vagrant, or, they may be run separately with Thimble [manually](#manual-installation).
 
@@ -47,10 +47,10 @@ All three services are bundled together using Git subtrees to be run together us
   Replace `<service's repository name>` and `<branch name>` with the same values you used in the previous command.<br>
   For e.g. `git subtree pull --prefix services/publish.webmaker.org https://github.com/mozilla/publish.webmaker.org master --squash`.
   - Update your remote branch with this new change.
-  - Open a pull request to have the subtree update reviewied and merged.
+  - Open a pull request to have the subtree update reviewed and merged.
 
 ## Automated Installation (Preferred Method)
-**Note:** If you aren't able to properly run virtualization software on your machine (for e.g. some versions of Windows only allow one virtualization client to run at a time and if that isn't VirtualBox, you can't run the required VirtualBox as well. This is often a problem if you have docker installed on Windows) or are trying to host Thimble on your own, refer to the [Manual Installation](#manual-installation) instructions instead.
+**Note:** If you aren't able to properly run virtualization software on your machine (for e.g. some versions of Windows only allow one virtualization client to run at a time and if that isn't VirtualBox, you can't run the required VirtualBox as well. This is often a problem if you have Docker installed on Windows) or are trying to host Thimble on your own, refer to the [Manual Installation](#manual-installation) instructions instead.
 
 ### Prerequisites for Automated Installation
 In order for Thimble to be installed correctly, the following dependencies need to be installed in order:
@@ -198,16 +198,9 @@ Please refer to the [Wiki](https://github.com/mozilla/thimble.mozilla.org/wiki/L
 Invalidating CloudFront
 ----------------------
 
-To invalidate the production CloudFront distribution, make sure you have correct credentials set up in your env file. Then run `node invalidate.js`. Alternatively, if you have access to the heroku deployments, run the invalidation as a one-off dyno with `heroku run npm run invalidate`
+To invalidate the production CloudFront distribution, make sure you have correct credentials set up in your env file. Then run `node invalidate.js`. Alternatively, if you have access to the Heroku deployments, run the invalidation as a one-off dyno with `heroku run npm run invalidate`
 
 Concurrency
 -----------
 
 Thimble uses the [throng](https://www.npmjs.com/package/throng) module to leverage Node's [Cluster API](https://nodejs.org/api/cluster.html) for concurrency. To specify the number of server processes to start set `WEB_CONCURRENCY` to a positive integer value.
-
-Contact Us
------------
-
-We're a friendly group, so feel free to chat with us in the "Thimble" channel on Mozilla Chat running on [Mattermost](https://about.mattermost.com). To access Mozilla Chat head over to [chat.mozillafoundation.org](https://chat.mozillafoundation.org). Note that you will be prompted to create an account if you do not already have one. If you already have an account, and you are already logged in from a previous visit, you can directly access the Thimble channel by clicking on [this link](https://chat.mozillafoundation.org/mozilla/channels/thimble).
-
-You can also download a mobile or desktop client for Mattermost [here](https://about.mattermost.com/download/#mattermostApps).
